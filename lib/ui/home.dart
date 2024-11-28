@@ -2,8 +2,8 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medapp/ui/add_medic.dart';
-import 'package:medapp/ui/functions.dart';
 import 'package:medapp/ui/models/task_controller.dart';
+import 'package:medapp/ui/models/tasktile.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,9 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
   final _taskController = Get.put(TaskController());
-
 
   int currentPageIndex = 0;
 
@@ -33,29 +31,7 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Row(
-              children: [
-                Text(
-                  "Today",
-                  style: headingStyle,
-                ),
-              ],
-            ),
-            Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 10),
-                child: EasyDateTimeLine(
-                  initialDate: DateTime.now(),
-                  onDateChange: (selectedDate) {
-                    //`selectedDate` the new date selected.
-                  },
-                  headerProps: const EasyHeaderProps(
-                    monthPickerType: MonthPickerType.switcher,
-                    dateFormatter: DateFormatter.fullDateDMY(),
-                  ),
-                  dayProps: const EasyDayProps(
-                    dayStructure: DayStructure.dayStrDayNum,
-                  ),
-                )),
+            _showTimeline(),
             _showTasks(),
           ],
         ),
@@ -83,16 +59,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  _showTimeline() {
+    return Container(
+        margin: const EdgeInsets.only(top: 20, bottom: 10),
+        child: EasyDateTimeLine(
+          initialDate: DateTime.now(),
+          onDateChange: (selectedDate) {
+            //`selectedDate` the new date selected.
+          },
+          headerProps: const EasyHeaderProps(
+            monthPickerType: MonthPickerType.switcher,
+            dateFormatter: DateFormatter.fullDateDMY(),
+          ),
+          dayProps: const EasyDayProps(
+            dayStructure: DayStructure.dayStrDayNum,
+          ),
+        ));
+  }
+
   _showTasks() {
     return Expanded(
       child: Obx(() {
         return ListView.builder(
             itemCount: _taskController.taskList.length,
-            itemBuilder: (_, context) {
-              return Container(
-                width: 100,
-                height: 50,
-                color: const Color(0xFFB4D84C),
+            itemBuilder: (_, index) {
+              print(_taskController.taskList.length);
+              return Card(
+                child: TaskTile(_taskController.taskList[index]),
               );
             }); // ListView.builder
       }), // Obx

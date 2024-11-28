@@ -20,7 +20,7 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
   final TextEditingController _miliController = TextEditingController();
   String _recurrence = 'Daily';
   final DateTime _selectedDate = DateTime.now();
-  final String _CurrentTime =
+  final String _dosetime =
       DateFormat("hh:mm a").format(DateTime.now()).toString();
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
             ),
             InputField(
                 title: "EndDate", hint: DateFormat.yMd().format(_selectedDate)),
-            InputField(title: "Time(s) for Medication", hint: _CurrentTime),
+            InputField(title: "Time(s) for Medication", hint: _dosetime),
           ],
         ),
       ),
@@ -126,7 +126,7 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
       miligram: _miliController.text,
       enddate: DateFormat.yMd().format(_selectedDate),
       recurrence: _recurrence,
-      dosetime: _CurrentTime,
+      dosetime: _dosetime,
       isCompleted: 0,
     ));
   }

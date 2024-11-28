@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart';
 import 'package:medapp/ui/models/tasks.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,21 +11,24 @@ class DBHelper {
       return;
     }
     try {
-      String path = '${await getDatabasesPath()}tasks.db';
+      String _path = '${await getDatabasesPath()}tasks.db';
       _db = await openDatabase(
-        path,
+        _path,
         version: _version,
         onCreate: (db, version) {
           print("creating a new one");
-          return db.execute("CREATE TABLE $_tableName("
-              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-              "name STRING, dosage INTEGER, enddate STRING,"
-              "dosetime STRING, miligram STRING,recurrence STRING "
-              "isCompleted INTEGER");
+          return db.execute(
+            "CREATE TABLE $_tableName("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name STRING, dosage INTEGER,"
+            "enddate STRING, dosetime STRING,"
+            "miligram STRING,recurrence STRING,"
+            "isCompleted INTEGER)",
+          );
         },
       );
     } catch (e) {
-      debugPrint(e as String?);
+      print(e);
     }
   }
 
